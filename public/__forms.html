@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Form definitions</title>
+    <meta name="robots" content="noindex" />
+  </head>
+  <body>
+    <!--
+      Netlify detects forms by parsing static HTML at build time. A Next.js page is rendered by
+      React, so the contact form is declared here instead, and the page posts to this path. Field
+      names must match the page exactly, or the submission is rejected as an unknown form.
+      This file is never linked and is marked noindex; nobody is meant to see it.
+    -->
+    <form name="project-enquiry" data-netlify="true" netlify-honeypot="company-website" hidden>
+      <input type="text" name="name" />
+      <input type="email" name="email" />
+      <input type="text" name="company" />
+      <textarea name="detail"></textarea>
+      <input type="text" name="company-website" />
+    </form>
+  </body>
+</html>

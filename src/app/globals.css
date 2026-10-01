@@ -1,0 +1,689 @@
+@import "tailwindcss";
+
+@theme inline {
+  /* Brand accent — PROVISIONAL. Sampled from the company brochure while the logo is being designed.
+     Change --brand, --brand-soft and --brand-deep below and the whole page follows; nothing else hard-codes the accent. */
+  --color-brand: var(--brand);
+  --color-brand-soft: var(--brand-soft);
+  --color-brand-deep: var(--brand-deep);
+
+  /* The source theme switches to desktop layouts at 992px, and the ScrollSmoother/pinned-section
+     matchMedia gates use the same value. Align Tailwind's `lg:` with it so CSS and JS agree.
+     All five are redeclared because Tailwind emits breakpoint media queries in declaration order:
+     overriding `lg` alone would hoist it above `sm`/`md` and let those win at desktop widths. */
+  --breakpoint-sm: 40rem;
+  --breakpoint-md: 48rem;
+  --breakpoint-lg: 62rem; /* 992px — same unit as its neighbours so it sorts between md and xl */
+  --breakpoint-xl: 80rem;
+  --breakpoint-2xl: 96rem;
+
+  /* ---- Type scale -------------------------------------------------------
+     Nine steps, fluid between the mobile and desktop ends so nothing needs a
+     per-breakpoint override. Use these instead of one-off pixel sizes. */
+  /* Line-heights tighten as size grows, the one rule worth taking wholesale from a reference
+     system: 1.05 at display, 1.10 at h1, 1.18 at h2, 1.3 at h3, and 1.5-1.6 for anything set as
+     running text. The body values are deliberately NOT tightened to match — a site whose long
+     text appears in short blocks can run 1.35, but this one has articles to serve. */
+  --text-display: clamp(2.25rem, 1.15rem + 4.75vw, 4.0625rem);   /* 36 -> 65 */
+  /* 1.07 with negative tracking made two-line headlines feel packed. The reference sets 65/71.5
+     (1.10) with slightly POSITIVE tracking; Manrope is a more compact face than the one it uses,
+     so this opens a little further still. */
+  --text-display--line-height: 1.05;
+  --text-display--letter-spacing: normal;
+
+  /* Weight belongs to the step, not to each usage. Everything went to 400 to match LPAS, but that
+     copied their number across a different typeface: Aeonik carries more ink at 400 than Schibsted
+     Grotesk does, so the section headings came out visibly weaker than the reference they were
+     meant to match. Measured on our own page at 50px — 400 covers 9.78% of its box with an 11.2px
+     stroke, 500 covers 11.40% at 13.1px. The display step stays at 400 because 65px carries itself.
+     Restoring 500 also revives .type-serif, which is 400 and had become invisible against it. */
+  --text-display--font-weight: 400;
+  --text-h1--font-weight: 500;
+  --text-h2--font-weight: 500;
+  --text-h3--font-weight: 500;
+
+  --text-h1: clamp(1.875rem, 1.1rem + 3.4vw, 3.125rem);          /* 30 -> 50 */
+  --text-h1--line-height: 1.10;
+  --text-h1--letter-spacing: 0;
+
+  --text-h2: clamp(1.5rem, 1.15rem + 1.6vw, 2.125rem);           /* 24 -> 34 */
+  --text-h2--line-height: 1.18;
+
+  --text-h3: clamp(1.125rem, 1rem + 0.62vw, 1.5rem);             /* 18 -> 24 */
+  --text-h3--line-height: 1.3;
+
+  --text-lead: clamp(1rem, 0.94rem + 0.28vw, 1.125rem);          /* 16 -> 18 */
+  --text-lead--line-height: 1.45;
+
+  --text-body: 1rem;
+  --text-body--line-height: 1.45;
+
+  --text-sm: 0.875rem;
+  --text-sm--line-height: 1.45;
+
+  --text-xs: 0.75rem;
+  --text-xs--line-height: 1.45;
+
+  --text-label: 0.75rem;   /* 12px — was 11, the odd one out of the four small sizes */
+  --text-label--line-height: 1.2;
+  --text-label--letter-spacing: 0.12em;
+
+  /* ---- Vertical rhythm --------------------------------------------------
+     One section-to-section gap, fluid. `mb-section`, `py-section`, `gap-section`. */
+  --spacing-section: clamp(4.5rem, 7.2vw, 8.25rem);   /* 72 -> 132 */
+  --spacing-block: clamp(2rem, 3.2vw, 3.75rem);       /* 32 -> 60 */
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  /* Inter for everything functional; Schibsted Grotesk for headings and display sizes. */
+  --font-sans: var(--font-body-src), "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --font-display: var(--font-display-src), "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, monospace;
+  --font-heading: var(--font-sans);
+  --color-ring: var(--ring);
+  --color-border: var(--border);
+}
+
+:root {
+  /* Brand, taken from the logo: charcoal #242A2E with a gold accent. The gold in the artwork is a
+     gradient (#94622B → #C99352); this is the flat mid-tone, which holds at small sizes. */
+  --brand: #b5813c;
+  --brand-soft: #d2a468;   /* the accent on dark panels, where the mid-tone goes muddy */
+  --brand-deep: #7d5522;   /* the accent on light panels: the mid-tone only reaches 2.7:1 on bone, this reaches 5.2:1 */
+  /* The light ground is pure white, by the owner's decision. Every light panel — the hero's
+     sibling sections, Services, Journey, Why choose, Clientele, Insights, the portfolio — resolves
+     to #ffffff, and PANEL_COLOURS in shared/gsap.ts maps both "white" and "ebb" to it so the body
+     tween never lands on a tint.
+     --bone is kept, at the old ground colour, as a *tint* rather than a ground: with the page
+     white, anything that used to be separated from it by being white itself needs the relationship
+     inverted. The logo comb is the one such case — see Clientele.tsx. */
+  --paper: #ffffff;
+  --ink: #242a2e;
+  --ink-deep: #1b2126;
+  --ink-soft: #2c343a;
+  --bone: #e8e5e2;         /* tint only — no longer a page ground; see --paper above */
+  --background: #ffffff;
+  --foreground: #242a2e;
+  --border: rgba(36, 42, 46, 0.2);
+  --ring: var(--brand);
+  /* Runtime tokens written by the scroll and header scripts */
+  --current-background: #ffffff;
+  --header-height: 73px;
+  --text-color: #ffffff;   /* fixed: the bar is one tone now, so nothing rewrites this */
+  /* The condensed bar is frosted glass rather than a painted panel. Charcoal at 0.68 over the
+     lightest possible backdrop — a pure white section — composites to rgb(100,104,107), which puts
+     white nav type at 5.6:1. White is the worst case, so that is the floor, not an average. */
+  --header-glass: rgba(27, 33, 38, 0.68);
+  --header-glass-solid: rgba(27, 33, 38, 0.92);
+}
+
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  html {
+    @apply font-sans;
+    scroll-behavior: auto;
+  }
+  /*
+   * The source page tweens <body> background-color with GSAP as [data-background]
+   * sections scroll into view, and flips body text colour with data-text.
+   * body keeps `transition: color .3s ease-in-out` so the text colour eases too.
+   */
+  body {
+    background-color: var(--current-background);
+    color: #ffffff;
+    font-family: var(--font-body-src), "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 16px;
+    /* A ratio, not a pixel value. As a pixel value this was the real source of the loose feel:
+       every element that set its own font-size but no leading inherited 26px (28px on desktop),
+       so a 16px button ran at 1.75 and ignored --text-body--line-height entirely. */
+    line-height: 1.45;
+    font-weight: 400;
+    transition-duration: 0.3s;
+    transition-property: color;
+    transition-timing-function: ease-in-out;
+    -webkit-font-smoothing: antialiased;
+  }
+  @media (min-width: 992px) {
+    body {
+      font-size: 18px;
+    }
+  }
+  body[data-text="light"] {
+    color: #ffffff;
+  }
+  body[data-text="dark"] {
+    color: #242a2e;
+  }
+  /* Intro: header starts hidden above the viewport and is revealed by GSAP */
+  body.is-intro {
+    overflow: hidden;
+  }
+  img,
+  video {
+    max-width: 100%;
+    height: auto;
+  }
+  button {
+    font: inherit;
+    color: inherit;
+    background: none;
+    border: 0;
+    padding: 0;
+  }
+}
+
+@layer components {
+  /* Visually hidden (source: .hidden) */
+  .sr-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+  /* Kept as the emphasis class inside headlines, but the emphasis is now weight, not a second
+     family — the display face at its lightest cut against the 500 around it. */
+  .type-serif {
+    font-family: var(--font-display-src), "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-weight: 400;
+  }
+
+  /* Headings carry the display face, everything else stays on Inter.
+     This is keyed to the ELEMENTS as well as the size utilities. Keyed only to the utilities, any
+     heading written with an arbitrary size — `text-[clamp(34px,3.4vw,50px)]` — silently fell back
+     to Inter. Six of nineteen headings on the site were doing exactly that. */
+  /* Headings balance their lines. Left to the default greedy algorithm they kept stranding a
+     single short word on the last line — "team." / "partner." / "thread." / "journey." / "for." —
+     which reads as a mistake at display sizes. Balancing picks break points that even the lines out,
+     usually landing on the sentence: "One brief." / "One team." It changes only where a line breaks,
+     never a size or a box, and the browser stops balancing past six lines. */
+  h1, h2, h3,
+  .text-display,
+  .text-h1,
+  .text-h2,
+  .text-h3 {
+    text-wrap: balance;
+  }
+  /* Except the service cards: their panel geometry is measured against a reserved two-line title,
+     and that run is a clone tuned line by line. Left greedy on purpose. */
+  [data-card-title] {
+    text-wrap: wrap;
+  }
+
+  h1, h2, h3,
+  .text-display,
+  .text-h1,
+  .text-h2,
+  .text-h3,
+  /* The service card titles are spans carrying a card-relative size, not headings, so
+     neither half of the selector above reached them and all seven ran at 52px of Inter —
+     the largest type in that section, on the body face. Keyed to the title span itself, not
+     to its `[data-title]` wrapper: that wrapper also holds the counter and the phase label,
+     which are small functional text and belong on Inter like every other label. */
+  [data-card-title] {
+    font-family: var(--font-display-src), "Helvetica Neue", Helvetica, Arial, sans-serif;
+  }
+
+  /* Two exceptions.
+     Navigation is interface rather than editorial, so it stays on Inter even at a display size.
+     And a heading is not automatically display type: the footer column heads and the registrations
+     label are h2 for outline reasons but sit at body size or below, where the display face reads as
+     an inconsistency rather than a hierarchy. Size decides the face, not the tag.
+     This replaces a blanket `nav h2, nav h3`, which was written for the header and instead caught
+     the footer's link groups — two of the three 16px footer heads rendered in Inter and the third,
+     outside a nav, in the display face, from identical markup. */
+  nav .text-h2,
+  .text-nav,
+  h1.text-body,  h2.text-body,  h3.text-body,
+  h1.text-sm,    h2.text-sm,    h3.text-sm,
+  h1.text-xs,    h2.text-xs,    h3.text-xs,
+  h1.text-label, h2.text-label, h3.text-label {
+    font-family: var(--font-body-src), "Helvetica Neue", Helvetica, Arial, sans-serif;
+  }
+  /* SplitText line masks (source: .title-mask / .title-line) */
+  .title-mask {
+    display: block;
+    overflow: hidden;
+  }
+  .title-line {
+    position: relative;
+    display: block;
+  }
+  /* Full-bleed cover image helper (source: img.image--cover) */
+  .image-cover {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+}
+
+/* GSAP ScrollSmoother wrapper (desktop only, created at runtime) */
+#smooth-wrapper {
+  position: relative;
+}
+@media (min-width: 992px) {
+  html.has-smoother #smooth-wrapper {
+    position: fixed;
+    inset: 0;
+    overflow: hidden;
+  }
+}
+
+@layer components {
+  /* Source: `.section--designs .section__header` collapses to a 1x1 clipped box below 992px so only
+     the carousel is visible, then returns to normal flow on desktop. */
+  .sr-hidden-until-lg {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+  }
+
+  @media (min-width: 992px) {
+    .sr-hidden-until-lg {
+      position: static;
+      width: auto;
+      height: auto;
+      margin: 0;
+      overflow: visible;
+      clip: auto;
+      white-space: normal;
+    }
+  }
+}
+
+@layer components {
+  /* The single page gutter. Padding-only, so it can never exceed the viewport
+     the way `width:100%` plus side margins did. */
+  .container-page {
+    --page-gutter: 24px;
+    width: 100%;
+    max-width: 2244px;      /* 2100 content + 2 x 72 gutter */
+    margin-inline: auto;
+    padding-inline: 24px;
+  }
+
+  @media (min-width: 62rem) {
+    .container-page {
+      --page-gutter: 72px;
+      padding-inline: 72px;
+    }
+  }
+
+  /* A narrower measure for long-form copy. */
+  .container-readable {
+    width: 100%;
+    max-width: 1470px;      /* 1330 content + 2 x 70 gutter */
+    margin-inline: auto;
+    padding-inline: 24px;
+  }
+
+  @media (min-width: 62rem) {
+    .container-readable {
+      padding-inline: 70px;
+    }
+  }
+}
+
+@layer components {
+  /* The header carries no surface over the hero, so the opening photograph is untouched — that
+     was a deliberate call and it stands. Everywhere below the hero it condenses into frosted
+     glass: one charcoal plate with a blurred backdrop, the same at every scroll position.
+     Why one fixed tone rather than a bar that follows the panel. The bar being transparent over
+     the hero fixes the type white there, because the hero is a dark photograph. A light glass bar
+     below it would therefore still need a swap at the hero boundary, which is the thing being
+     removed. A dark plate keeps white type from the first pixel to the last and nothing has to
+     change colour — no --header-surface, no --text-color tween, no logo cross-fade.
+     What it replaces: the bar used to paint whichever panel colour the page had tweened to, so
+     the bar and the type on it were written by the same trigger and could not disagree. That
+     worked, but it made every new section a colour decision, and three separate systems had to
+     stay in step through it. Glass makes the bar independent of the page. */
+  .header-main::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: var(--header-glass);
+    -webkit-backdrop-filter: blur(20px) saturate(140%);
+    backdrop-filter: blur(20px) saturate(140%);
+    opacity: 0;
+    transition: opacity 180ms ease;
+    pointer-events: none;
+  }
+  .header-main[data-condensed="true"]::before {
+    opacity: 1;
+    box-shadow: 0 1px 0 0 rgba(255, 255, 255, 0.14);
+  }
+  /*
+   * A scrim that travels with the BAR, for the stretch before it condenses.
+   *
+   * Each opening frame carries its own gradient, but that gradient is strong only across its top
+   * half — and the bar does not stay at the top of it. As the frame scrolls up, the bar sees
+   * progressively weaker parts of it, so on a pale photograph the white nav type ran out of
+   * contrast: measured at 2.13:1 on /about and 2.25:1 on /insights at 200px of scroll.
+   *
+   * Attaching the scrim to the header instead of to the picture makes it correct at every scroll
+   * position on every page, whatever that page's frame is doing. It is a soft gradient rather than
+   * a plate, so the opening photograph is still not sitting under a bar — which was the point of
+   * leaving the header transparent in the first place — and it fades out the moment the real glass
+   * plate takes over.
+   */
+  .header-main::after {
+    content: "";
+    position: absolute;
+    inset: 0 0 auto 0;
+    /* Held near full strength across the bar's own height, then faded. A gradient that peaks at
+       0% is already down to about 0.49 by the time it reaches the nav's baseline at y=30, which
+       measured 3.62:1 over a bright frame of the home slideshow. The plateau keeps the type in
+       the strong part of the ramp and the fade still happens well clear of it. */
+    height: 180px;
+    background: linear-gradient(180deg, rgba(10, 13, 15, 0.62) 0%, rgba(10, 13, 15, 0.58) 38%, rgba(10, 13, 15, 0.3) 68%, rgba(10, 13, 15, 0) 100%);
+    opacity: 1;
+    transition: opacity 180ms ease;
+    pointer-events: none;
+  }
+  .header-main[data-condensed="true"]::after,
+  /* A flat colour needs no scrim: it is an even surface already, and the gradient reads as a
+     smear across it. The bar takes the panel's own tone instead — see below. */
+  .header-main[data-frame="flat"]::after {
+    opacity: 0;
+  }
+  /* No backdrop-filter means no blur to darken the plate, so the tint has to carry the contrast
+     on its own. Safari needs the -webkit- form named here as well as above. */
+  @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+    .header-main::before {
+      background: var(--header-glass-solid);
+    }
+  }
+  .header-main > * {
+    position: relative;
+    z-index: 1;
+  }
+  /* The bar tightens as it condenses; the logo comes down with it so the proportions hold.
+     It also slides away on the way down and returns on the way up — see Header.tsx. */
+  .header-main {
+    transition: padding 400ms ease, transform 350ms cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .header-main[data-hidden="true"] {
+    transform: translateY(-100%);
+  }
+  .header-main[data-hidden="true"] [aria-expanded="true"] ~ *,
+  body[data-menu-open="true"] .header-main {
+    transform: none;
+  }
+  @media (min-width: 62rem) {
+    .header-main[data-condensed="true"] {
+      padding-block: 10px;
+    }
+  }
+  .header-main[data-condensed="true"] .header__logo svg,
+  .header-main[data-condensed="true"] .header__logo img {
+    height: 26px;
+  }
+  @media (min-width: 62rem) {
+    .header-main[data-condensed="true"] .header__logo svg,
+    .header-main[data-condensed="true"] .header__logo img {
+      height: 32px;
+    }
+  }
+  .header__logo svg,
+  .header__logo img {
+    transition: height 400ms ease;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .header-main,
+    .header-main::before,
+    .header__logo svg,
+    .header__logo img {
+      transition: none;
+    }
+  }
+}
+
+@layer components {
+  /*
+   * The client marquee on /about.
+   *
+   * Two rows travelling in opposite directions, which is the device the reference uses for its
+   * logo wall. Each track holds the same group twice and shifts by exactly half its own width, so
+   * the seam lands where the duplicate begins and the loop is invisible. The duration is written
+   * from JS as --marquee-duration, because a fixed duration would mean the logos crawl on a phone
+   * and race on a wide monitor; measuring the group and dividing by a constant speed keeps them
+   * moving at the same rate at every width.
+   */
+  .marquee {
+    overflow: hidden;
+    /* The rows bleed past the page gutter, so a logo is always caught mid-entry at both edges and
+       the strip reads as continuous rather than as a box with things inside it. */
+    margin-inline: calc(var(--page-gutter, 24px) * -1);
+  }
+  .marquee__track {
+    display: flex;
+    width: max-content;
+    animation: marquee-left var(--marquee-duration, 40s) linear infinite;
+  }
+  .marquee[data-dir="right"] .marquee__track {
+    animation-name: marquee-right;
+  }
+  .marquee:hover .marquee__track {
+    animation-play-state: paused;
+  }
+  @keyframes marquee-left {
+    from { transform: translateX(0); }
+    to   { transform: translateX(-50%); }
+  }
+  @keyframes marquee-right {
+    from { transform: translateX(-50%); }
+    to   { transform: translateX(0); }
+  }
+  /* No travel for anyone who has asked for less motion: the row becomes an ordinary strip they
+     can push themselves, and the duplicate group is removed so nothing is said twice. */
+  @media (prefers-reduced-motion: reduce) {
+    .marquee {
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+    .marquee::-webkit-scrollbar { display: none; }
+    .marquee__track { animation: none; }
+    .marquee__group[data-clone="true"] { display: none; }
+  }
+}
+
+@layer components {
+  /* A scroller the reader drives by swiping, so the bar itself is noise. The clipped item at the
+     right edge is the affordance. */
+  .scrollbar-none {
+    scrollbar-width: none;
+  }
+  .scrollbar-none::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+@layer components {
+  /*
+   * The client comb's cells, raised off the page.
+   *
+   * Depth comes in three layers. A drop-shadow on an *unclipped* wrapper: box-shadow cannot be
+   * used here at all, because clip-path cuts the shadow away with the rest of the box, whereas
+   * drop-shadow reads the clipped alpha and traces the hexagon. A bevelled rim whose gradient runs
+   * light at the top left to dark at the bottom right, which is what reads as a raised edge. And a
+   * face lit from the same direction, so the whole cell agrees on where the light is.
+   *
+   * The rim doubles as the cell's separator. On the old bone ground the gap between cells was the
+   * page showing through; on white that separation had to be inverted into the cell itself.
+   */
+  /*
+   * Honeycomb cell — rebuilt with no filter of any kind.
+   *
+   * The previous version drew its depth with two stacked `drop-shadow()` filters. A drop-shadow
+   * has to rasterise the cell's clipped alpha and blur it, twenty times over, every time the
+   * section is re-rastered as it scrolls; promoting the cells to their own layers to avoid that
+   * turned out to be worse still (40 of 90 frames dropped, 40fps). So the shadow is gone and the
+   * depth is drawn instead: `__cast` is a fourth clipped hexagon sitting a few pixels lower than
+   * the others, filled with a vertical gradient. Only its bottom edge is visible past the rim, and
+   * a gradient costs the same as any background — no blur, no alpha tracing, no extra layer.
+   *
+   * Do not reintroduce `filter`, `will-change`, `translateZ(0)` or `backface-visibility` here.
+   * Measure frames delivered, not paint time, if you are tempted.
+   */
+  /*
+   * Touch target for small text links.
+   *
+   * WCAG 2.2 AA asks for 24x24 CSS pixels. Footer and inline links run 15-20px tall, which is
+   * right for reading and wrong for a thumb. The padding grows the hit box; the equal negative
+   * margin hands the space straight back, so nothing on the page moves — verified pixel-identical
+   * at 390, 768 and 1440. On an inline link the margin is inert anyway and the padding never
+   * affects the line box, so this is safe in both display modes.
+   */
+  .tap {
+    padding-block: 7px;
+    margin-block: -7px;
+  }
+
+  .hexcell {
+    position: relative;
+    transition: transform 400ms cubic-bezier(0.2, 0.7, 0.3, 1);
+  }
+  .hexcell:hover {
+    z-index: 1;
+    transform: translateY(-5px);
+  }
+
+  /* The cast shadow: offset down, so it shows only beneath the cell. */
+  .hexcell__cast {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(36, 42, 46, 0) 56%, rgba(36, 42, 46, 0.26) 100%);
+    opacity: 0.85;
+    transition: opacity 400ms ease;
+  }
+  .hexcell:hover .hexcell__cast {
+    opacity: 1;
+  }
+
+  /* The bevelled edge. */
+  .hexcell__rim {
+    background: linear-gradient(145deg, #eeebe7 0%, #d9d4cd 48%, #c2bcb4 100%);
+  }
+  .hexcell__face {
+    background: linear-gradient(160deg, #ffffff 0%, #ffffff 58%, #f5f3f0 100%);
+    transition: background 400ms ease;
+  }
+  .hexcell:hover .hexcell__face {
+    background: linear-gradient(160deg, #ffffff 0%, #fdfcfb 62%, #efece8 100%);
+  }
+
+  /* The invitation keeps the same painted size as every logo cell. */
+  .hexcell__rim--cta {
+    background: linear-gradient(145deg, #3d464c 0%, #242a2e 52%, #12171a 100%);
+  }
+  .hexcell__face--cta {
+    background: linear-gradient(160deg, #2e353b 0%, #242a2e 58%, #1b2126 100%);
+  }
+  .hexcell:hover .hexcell__rim--cta {
+    background: linear-gradient(145deg, #a8763a 0%, var(--brand-deep) 52%, #4e3413 100%);
+  }
+  .hexcell:hover .hexcell__face--cta {
+    background: linear-gradient(160deg, #8e6129 0%, var(--brand-deep) 58%, #5f3f18 100%);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hexcell:hover {
+      transform: none;
+    }
+  }
+}
+
+@layer base {
+  /* One visible focus ring for every interactive element. The gold reads on both the bone and the
+     charcoal panels, and :focus-visible keeps it off mouse clicks. */
+  :where(a, button, [role="button"], input, textarea, select, summary):focus-visible {
+    outline: 2px solid var(--brand);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+
+  /* Anyone who asks for less motion gets the layout without the movement. GSAP is gated separately
+     in prefersReducedMotion(); this covers the CSS transitions. */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
+/* Unlayered on purpose. The page-level logo swap is a Tailwind utility, and utilities beat anything
+   in @layer components no matter how specific it is; unlayered rules beat every layer. Inside the
+   header the lockup follows the bar's own tone rather than the page's, because the two are driven
+   by different triggers at different scroll edges and disagree in between. */
+.header-main [data-logo] {
+  /* No cross-fade and no swap. The lockup in the bar is the light tone at every scroll position,
+     because the bar is either the charcoal glass plate or transparent over the dark hero — it is
+     never light. This used to follow the bar's tone, and before that the page's, and the two are
+     driven by different triggers at different scroll edges, so in between them the lockup rendered
+     its light tone on a light bar and vanished. With one bar tone the question stops existing. */
+  transition: none;
+}
+.header-main [data-logo="light"] {
+  opacity: 1;
+}
+.header-main [data-logo="dark"] {
+  opacity: 0;
+}
+
+/* Unlayered, for the same reason as the header logo rules above: `lg:items-start` on the portfolio
+   grid is a Tailwind utility, and utilities beat anything in @layer components. The twelve-column
+   grid starts its rows top-aligned so the short cards can drift down onto the row's baseline while
+   it scrolls. With the drift suppressed there is nothing to land, so the baseline is where they
+   start. */
+@media (prefers-reduced-motion: reduce) {
+  .portfolio-grid {
+    align-items: end;
+  }
+}
+
+/* Unlayered, like the logo rules above: these have to beat the Tailwind utilities on the header.
+   While the bar is over a PALE flat frame it runs in ink — white type measures 1.51:1 on the
+   palest of the seven stage colours. It reverts the moment the bar condenses, because the glass
+   plate beneath it is charcoal. */
+.header-main[data-frame-tone="light"]:not([data-condensed="true"]) {
+  --text-color: #242a2e;
+}
+.header-main[data-frame-tone="light"]:not([data-condensed="true"]) [data-logo="dark"] {
+  opacity: 1;
+}
+.header-main[data-frame-tone="light"]:not([data-condensed="true"]) [data-logo="light"] {
+  opacity: 0;
+}
+.header-main[data-frame-tone="light"]:not([data-condensed="true"]) .btn {
+  --btn-outline: rgba(36, 42, 46, 0.25);
+  --btn-color: #242a2e;
+  --btn-icon-color: #242a2e;
+  --btn-icon-bg: rgba(36, 42, 46, 0.08);
+}
+.header-main[data-frame-tone="light"]:not([data-condensed="true"]) .btn:hover {
+  --btn-bg: #242a2e;
+  --btn-outline: #242a2e;
+  --btn-color: #ffffff;
+  --btn-icon-color: #242a2e;
+  --btn-icon-bg: #ffffff;
+}

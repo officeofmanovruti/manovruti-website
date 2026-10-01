@@ -1,0 +1,26 @@
+# Netlify build configuration.
+#
+# The Next.js runtime is installed automatically by Netlify and needs no plugin entry here.
+# Security headers are NOT repeated in this file: they live in next.config.ts so that `next start`
+# and Netlify serve the same policy, and duplicating them would mean two places to forget.
+
+[build]
+  # The site has to know its own address, for metadata, robots.txt, sitemap.xml and the structured
+  # data on the article pages. Netlify sets URL to whatever this deploy actually answers on — a
+  # .netlify.app subdomain today, the custom domain the moment one is attached — so the site stays
+  # correct through the demo and through launch without anyone editing this file. Set
+  # NEXT_PUBLIC_SITE_URL explicitly in the Netlify UI only if you need to override that.
+  command = "NEXT_PUBLIC_SITE_URL=${NEXT_PUBLIC_SITE_URL:-$URL} npm run build"
+  publish = ".next"
+
+[build.environment]
+  NODE_VERSION = "24"
+  NEXT_TELEMETRY_DISABLED = "1"
+
+# Deploy previews and branch builds describe themselves by their own address, so they can never
+# claim to be the production site. Anything on a .netlify.app host is noindex — see src/lib/site.ts.
+[context.deploy-preview]
+  command = "NEXT_PUBLIC_SITE_URL=$DEPLOY_PRIME_URL npm run build"
+
+[context.branch-deploy]
+  command = "NEXT_PUBLIC_SITE_URL=$DEPLOY_PRIME_URL npm run build"
