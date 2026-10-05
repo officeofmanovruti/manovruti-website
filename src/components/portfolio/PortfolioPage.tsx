@@ -9,9 +9,8 @@ import { Header } from "../home/Header";
 import { Footer } from "../home/Footer";
 import { Media } from "../shared/Media";
 import { ParallaxMedia } from "../shared/ParallaxMedia";
-// DRAFT_PENDING still lives in ./data — the project titles and scope lines remain unconfirmed
-// and permission to name these clients is still outstanding. The on-page notice was removed
-// at the client's request; the flag and its comment are the remaining record.
+// DRAFT_PENDING still lives in ./data. The on-page notice it used to render was removed at the
+// client's request; the flag remains so the notice can be brought back if an entry is questioned.
 import { PORTFOLIO_INTRO, PROJECTS, SECTORS, type Project, type Sector } from "./data";
 
 /**
@@ -48,8 +47,8 @@ function Frame({ p }: { p: Project }) {
   );
 }
 
-/** Card face stays quiet: what it is and where. The scope lines are draft content and belong in the
- *  detail view once Rajnikant has confirmed them, not shouted on the index. */
+/** Card face stays quiet: what it is and where. Scope lines belong in the detail view, where
+ *  someone has chosen to read them, rather than shouted on the index. */
 function Card({ p }: { p: Project }) {
   return (
     <article className="group block" data-animate="step-up" data-animate-start="top 90%">

@@ -9,19 +9,16 @@
  * Rajnikant can state them. Where a reader will expect a number, the text says the honest thing —
  * that it depends, and on what.
  *
- * FIFTEEN articles are written (24 Sep 2026), planned as an SEO programme — the topics, target
- * queries, outlines and publishing order are in docs/content-brief.md. Every one has an entry
+ * FIFTEEN articles are written (24 Sep 2026) as an SEO programme, each aimed at a query a
+ * practice in this region is actually searched for. Every one has an entry
  * here, so every one has an `href` and every card linking to it works. An article without a body
  * still generates no page and no link; that mechanism is unchanged — see the note on `Insight.href`.
  *
  * NONE OF THEM STATES A LOCAL STATUTORY SPECIFIC. Where a reader expects a fee, a day-count, a
  * department name or a document checklist, the text explains the principle and says the specifics
- * are established for that plot at the outset. That is deliberate and it is the line that keeps
- * this safe to publish before Rajnikant has read it.
- *
- * TWO NEED HIS SIGN-OFF BEFORE LAUNCH above all others: `factory-licence-sequence` and
- * `structural-stability-certificate`. Both describe statutory process, both are written to the
- * general shape rather than the local detail, and both are the ones a reader would act on.
+ * are established for that plot at the outset. That is deliberate: specifics vary by plot and by
+ * authority, so publishing them as general truths would be wrong as often as right. Keep that line
+ * for anything added here later — it is what makes the set safe to publish as general guidance.
  */
 
 export type Block =

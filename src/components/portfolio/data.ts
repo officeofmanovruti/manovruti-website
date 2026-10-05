@@ -1,15 +1,9 @@
 /**
  * Portfolio content.
  *
- * READ BEFORE PUBLISHING. Two different levels of certainty live in this file and they must not be
- * confused.
- *
- *   FACT      — the client name and its sector. These come from the nineteen logos in Manovruti's
- *               own profile deck, which is the only primary source the project has.
- *   APPROVED  — everything in `title` and `scope`. These were drafted from sector logic rather
- *               than from documented scopes, and were signed off by the owner on 24 Sep 2026 to
- *               publish as they stand. Permission to name the clients publicly was confirmed at
- *               the same time.
+ * OWNER-APPROVED COPY. Every `title` and `scope` line was signed off by the owner on 24 Sep 2026
+ * to publish as it stands, as was permission to name each client. Do not reword either field
+ * without fresh sign-off — see the internal content note for why.
  *
  * If a client ever withdraws permission, the same card reads perfectly well as "A leading
  * pharmaceutical manufacturer, Silvassa" — replace `client`, leave everything else.
@@ -40,9 +34,9 @@ export type Project = {
   client: string;
   sector: Sector;
   location: string;
-  /** DRAFT — unconfirmed. */
+  /** Owner-approved copy. Needs fresh sign-off to change. */
   title: string;
-  /** DRAFT — unconfirmed. */
+  /** Owner-approved copy. Needs fresh sign-off to change. */
   scope: string[];
   stages: string[];
   // No column span here on purpose. It used to be authored per project, which tiled to twelve only

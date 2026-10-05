@@ -50,15 +50,11 @@ export const CONTACT_PAGE = {
  * EVERY ANSWER BELOW IS ALREADY PUBLISHED ELSEWHERE ON THIS SITE. The working area comes from the
  * project locations, the registrations from the credentials section, the reply time from the
  * footer, the person from the business card, and "what we need" from the block directly above.
- * Nothing here is new assertion, which is why it can ship without Rajnikant.
+ * An FAQ that restates the site stays true as the site changes.
  *
- * WHAT IS DELIBERATELY NOT HERE, and needs him before it can be:
- *   - price, or anything shaped like a price, for any stage
- *   - how long any statutory approval takes
- *   - whether a single stage can be taken without the rest
- *   - capacity, team size, or how many projects run at once
- * Those are the four most-asked questions in this trade and all four do damage when guessed at.
- * Add them here when the answers come back; the shape below takes them as they are.
+ * Price, statutory durations and capacity are deliberately not answered here. They depend on the
+ * plot, the authority and the programme, so a general answer would mislead — which is exactly the
+ * conversation the enquiry form is for. The shape below takes more entries as they are.
  */
 export const CONTACT_FAQ = [
   {

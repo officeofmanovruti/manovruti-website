@@ -12,12 +12,12 @@ import { SITE_URL, absoluteUrl } from "@/lib/site";
  * search engine, because structured data that disagrees with the visible page is a manual-action
  * risk, not a shortcut. For the same reason these are deliberately ABSENT rather than guessed:
  *
- *   openingHours    — not published anywhere and nobody has confirmed them
+ *   openingHours    — the site does not publish them
  *   priceRange      — the site quotes no prices
- *   aggregateRating — there are no reviews, and inventing them is fraud
- *   sameAs          — the practice has no social profiles yet; add the LinkedIn URL when it exists
+ *   aggregateRating — there are no reviews to aggregate
+ *   sameAs          — add the LinkedIn URL once the profile exists
  *
- * Add them here the moment Rajnikant supplies them, and not before.
+ * Each one goes in when the site itself can show the same thing, and not before.
  */
 export function StructuredData() {
   const [street, cityAndPin] = CONTACT.address;

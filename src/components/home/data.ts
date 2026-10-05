@@ -1,6 +1,6 @@
-// Manovruti home-page content. Every fact here comes from the company brochure
-// ("Manovruti_Architecture to Handover") and the founder's business card.
-// Nothing is invented: no testimonials, no project claims, no fabricated numbers.
+// Manovruti home-page content. Every fact here traces to the company brochure
+// ("Manovruti_Architecture to Handover") and the founder's business card — the project's two
+// primary sources. Anything added later should trace to a source too.
 
 import type {
   CapabilityMarker, ClientLogo, ContactDetail, Credential, FooterMenuGroup,
@@ -396,12 +396,10 @@ export const INSIGHTS_SECTION = {
   cta: { label: "All insights", href: "/insights" },
 } as const;
 
-// CONTENT STILL OWED BY THE CLIENT. None of these carries an `href`, which is what keeps the
-// cards from linking anywhere: see the note on Insight.href. Add one when the article has a body.
-// CONTENT STILL OWED BY THE CLIENT. These are the three topics chosen because they are what a
-// firm in Silvassa would actually be searched for, and because only Rajnikant can write them
-// accurately — statutory procedure is not something to guess at. Titles and summaries here are
-// the commission, not published articles; each needs his technical input before launch.
+// The insight cards. A card only links if its entry carries an `href` — see the note on
+// Insight.href — so an entry added before its article exists renders without becoming a dead
+// link. Topics were chosen for what a practice in Silvassa is actually searched for; the bodies
+// and the full set live in src/components/insights/article.ts.
 export const INSIGHTS: Insight[] = [
   // Order matters: the home page features the first and shows the next two. Widest-reach and
   // highest-converting pieces lead. The full set appears on /insights.

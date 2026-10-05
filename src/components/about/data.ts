@@ -7,10 +7,10 @@
  * spelling brought into line with the rest of the site (British, as used everywhere else) and
  * nothing added. The journey paragraph is the brochure's, already used on the home page.
  *
- * WHAT IS DELIBERATELY ABSENT. The reference this page is modelled on carries eighty-one team
- * portraits and a headcount. We have neither: the brochure names the disciplines the team is made
- * of and stops there, so this page does the same. No names, no faces, no numbers. If Rajnikant
- * supplies photographs and a headcount, TEAM_DISCIPLINES is where the section grows from.
+ * WHAT IS DELIBERATELY ABSENT. No team names, no portraits, no headcount. The brochure names the
+ * disciplines the team is made of and stops there, so this page does the same — a page that lists
+ * what it can stand behind reads better than one padded to fill a layout. TEAM_DISCIPLINES is
+ * where that section grows from if photographs and a headcount are ever supplied.
  */
 
 const PHOTO = "/manovruti/photos";
