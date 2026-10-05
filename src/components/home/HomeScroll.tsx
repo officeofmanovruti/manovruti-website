@@ -145,7 +145,7 @@ export function HomeScroll() {
                       <div className="section__full-note text-[16px] text-white/75">
                         <p>
                           {HOME_SCROLL.note}{" "}
-                          <a href={HOME_SCROLL.noteLink.href} className="underline transition-colors duration-300 ease-in-out hover:text-[var(--color-brand)]">
+                          <a href={HOME_SCROLL.noteLink.href} className="tap underline transition-colors duration-300 ease-in-out hover:text-[var(--color-brand)]">
                             {HOME_SCROLL.noteLink.label}
                           </a>
                         </p>
