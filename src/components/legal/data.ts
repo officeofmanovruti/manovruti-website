@@ -7,10 +7,16 @@ import { BRAND, CONTACT } from "../home/data";
  * cookies, runs no analytics and loads nothing from a third-party domain, and saying so plainly is
  * both true today and more reassuring than boilerplate about cookie categories that do not exist.
  *
- * The four open points were settled by the owner on 24 Sep 2026 and written in below: a 24-month
- * retention period for enquiries, the founder named as the grievance contact under the DPDP Act,
- * the registered entity name, and jurisdiction at Silvassa. They follow ordinary Indian practice
- * for a professional consultancy and are the client's to change.
+ * The four open points were settled by the owner on 24 Sep 2026 and written in below: a retention
+ * period for enquiries, the founder named as the grievance contact under the DPDP Act, the
+ * registered entity name, and jurisdiction at Silvassa. They follow ordinary Indian practice for a
+ * professional consultancy and are the client's to change.
+ *
+ * RETENTION was 24 months from the last contact; it is now the length of the project conversation
+ * plus 36 months (6 Oct 2026). The DPDP Act sets no fixed term — it asks that data be kept only as
+ * long as the stated purpose needs — so the period is defensible as long as the text says what the
+ * purpose is, which it does. Whoever changes it must also change what actually happens in the
+ * Netlify dashboard, because nothing deletes a submission automatically.
  *
  * A solicitor should still read both pages. Nothing here is legal advice.
  *
