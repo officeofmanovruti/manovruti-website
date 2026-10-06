@@ -42,13 +42,14 @@ export const metadata: Metadata = {
   ],
   applicationName: "Manovruti",
   authors: [{ name: "Manovruti" }],
-  alternates: { canonical: "/" },
+  // No `alternates` here on purpose. Metadata inherits down the tree, so a canonical set at the
+  // root is claimed by every page that does not override it — which is how 25 pages came to
+  // declare themselves duplicates of the home page. Each page sets its own via pageMetadata().
   openGraph: {
+    // Only the parts that are genuinely the same everywhere. Title, description and url are
+    // per-page; declaring them here made every share preview identical.
     type: "website",
     siteName: "Manovruti",
-    title: "Manovruti — Industrial Construction, Architecture to Handover",
-    description:
-      "End to end industrial construction under one roof: feasibility, approvals, engineering, execution and certification.",
     locale: "en_IN",
   },
   // robots.txt is a request; the meta tag is the instruction. A demo carries both.

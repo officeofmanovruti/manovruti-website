@@ -2,7 +2,7 @@ import { chromium } from 'playwright';
 import AxeBuilder from '@axe-core/playwright';
 import fs from 'node:fs';
 
-const BASE = 'http://localhost:3100';
+const BASE = 'http://localhost:3000';
 const PAGES = ['/', '/about', '/portfolio', '/insights', '/contact', '/thank-you', '/privacy',
   '/services/structural-detail-engineering', '/insights/na-permission-dnh'];
 

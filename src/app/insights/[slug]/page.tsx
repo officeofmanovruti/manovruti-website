@@ -4,6 +4,7 @@ import { ArticlePage } from "@/components/insights/ArticlePage";
 import { ARTICLES } from "@/components/insights/article";
 import { INSIGHTS } from "@/components/home/data";
 import { absoluteUrl } from "@/lib/site";
+import { clampDescription, pageMetadata } from "@/lib/metadata";
 
 /** Only articles that have a body exist. The commissions generate nothing and 404. */
 export function generateStaticParams() {
@@ -17,7 +18,11 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const meta = INSIGHTS.find((a) => a.slug === slug);
   const article = ARTICLES[slug];
   if (!meta || !article) return {};
-  return { title: `${meta.title} — Manovruti`, description: article.standfirst.slice(0, 180) };
+  return pageMetadata({
+    title: meta.title,
+    description: clampDescription(article.standfirst),
+    path: `/insights/${slug}`,
+  });
 }
 
 export default async function Page({ params }: { params: Promise<{ slug: string }> }) {
