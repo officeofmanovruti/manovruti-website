@@ -94,8 +94,13 @@ export function PageTransition() {
 
       const url = new URL(href, window.location.href);
       if (url.origin !== window.location.origin) return;
-      // A link to the page we are already on should do nothing rather than flash the panel.
-      if (url.pathname === window.location.pathname && !url.hash) return;
+      // A link to the page we are already on is not a navigation, with or without a hash. The
+      // `&& !url.hash` that used to be here let "/about#journey" through while on /about — the
+      // footer renders exactly that link on every page. The panel then covered the screen and
+      // `reveal` never ran, because it is driven by a pathname change that never came, so the
+      // visitor sat under a full-screen panel until the safety timer fired. Same-page hashes
+      // belong to SmoothScroll, which scrolls through the smoother and allows for the header.
+      if (url.pathname === window.location.pathname) return;
 
       e.preventDefault();
       if (navigating.current) return;
@@ -103,6 +108,9 @@ export function PageTransition() {
 
       const el = panel.current;
       if (!el || prefersReducedMotion()) {
+        // Release the flag: this branch raises no panel, so nothing else will clear it. Left set,
+        // the guard above swallowed every later click and navigation died for the session.
+        navigating.current = false;
         router.push(href);
         return;
       }

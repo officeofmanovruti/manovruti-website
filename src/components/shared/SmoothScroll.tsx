@@ -131,8 +131,15 @@ export function SmoothScroll({ children }: { children: ReactNode }) {
       // on a sub-page the browser navigates home and lands on the section, and here on the home
       // page we strip the slash and scroll instead of reloading. Written as bare "#services" they
       // were simply dead on /about and /portfolio — 38 of them, measured.
-      const onHome = window.location.pathname === "/";
-      const hash = href.startsWith("#") ? href : href.startsWith("/#") && onHome ? href.slice(1) : null;
+      // Three shapes reach here: a bare "#id"; "/#id" while on the home page; and a fully
+      // qualified "/about#journey" while already on /about, which the footer renders on every
+      // page. The third used to fall through to PageTransition and cover the screen.
+      let hash: string | null = null;
+      if (href.startsWith("#")) hash = href;
+      else if (href.startsWith("/")) {
+        const url = new URL(href, window.location.href);
+        if (url.hash && url.pathname === window.location.pathname) hash = url.hash;
+      }
       if (!hash) return;
 
       const target = document.querySelector(hash);

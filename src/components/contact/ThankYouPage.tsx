@@ -31,8 +31,11 @@ export function ThankYouPage() {
   useEffect(() => initAnimate(), []);
 
   return (
-    <SmoothScroll>
+    <>
+      {/* Header outside the smoother: at >=992px ScrollSmoother transforms #smooth-content, which
+          turns a position:fixed child into a scrolling one. See the note in SmoothScroll. */}
       <Header />
+      <SmoothScroll>
       <main id="main">
         {/* The same frame the contact page opens with, and deliberately so: the visitor arrives here
             straight off that page, and carrying the picture over makes the send feel like one
@@ -94,6 +97,7 @@ export function ThankYouPage() {
         </section>
       </main>
       <Footer />
-    </SmoothScroll>
+      </SmoothScroll>
+    </>
   );
 }
