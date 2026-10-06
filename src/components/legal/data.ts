@@ -66,7 +66,7 @@ export const PRIVACY: LegalDoc = {
       body: [
         "The contact form asks for your name, email address, company and a description of your project. You choose what to put in it. We ask for the email address only so that we can reply.",
         "Submissions are delivered through Netlify Forms and then emailed to us. We use what you send to answer your enquiry and to carry out any work that follows from it. We do not add you to a mailing list, and we do not sell, rent or trade your details.",
-        "We keep enquiries for 24 months from your last contact with us, so that we can pick up a conversation you return to and keep a record of advice already given. After that they are deleted. If you would like yours removed sooner, ask and we will do it.",
+        "We keep an enquiry for as long as we are in contact about the project it concerns, and for 36 months after our last exchange — long enough to pick up a conversation you return to and to keep a record of advice already given. After that it is deleted. If you would like yours removed sooner, ask and we will do it.",
       ],
     },
     {

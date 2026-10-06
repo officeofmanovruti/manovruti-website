@@ -26,8 +26,11 @@ export const CONTACT = {
   qualification: "B.E. Civil, A.M.I.E. (India)",
   phone: "+91 97230 87807",
   phoneHref: "tel:+919723087807",
-  email: "manovruti@gmail.com",
-  emailHref: "mailto:manovruti@gmail.com",
+  // One inbox for now. Netlify form notifications are sent here too, so an enquiry that arrives
+  // by form and one that arrives by email land in the same place. Add manovruti@gmail.com back as
+  // a second published address only when somebody is watching it.
+  email: "officeofmanovruti@gmail.com",
+  emailHref: "mailto:officeofmanovruti@gmail.com",
   address: ["215 Landmark", "Silvassa 396230", "UT of DNH & DD"],
 } as const;
 

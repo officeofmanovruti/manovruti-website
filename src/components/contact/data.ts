@@ -94,3 +94,27 @@ export const CONTACT_FAQ = [
     a: "The four things listed above — the plot, the use, the stage and the deadline. With those, the first reply can name the clearances involved and the order they have to happen in. Without them, any answer is a guess.",
   },
 ] as const;
+
+/**
+ * Thank you page.
+ *
+ * Reached only by a successful form submission. Nothing here asserts anything the site does not
+ * already say: the reply time lives in CONTACT_PAGE.replyNote and the number in CONTACT, and both
+ * are read rather than repeated.
+ */
+export const THANK_YOU = {
+  eyebrow: "Enquiry received",
+  title: { main: "Thank you —", accent: "that has reached us." },
+  lead:
+    "Your enquiry is with us. We will read the plot, the use and the stage you described, and come back on what the work involves and the order it has to happen in.",
+  onwardLabel: "Where to go next",
+  // "/#services", not "/services": there is no services index route, only /services/<slug>. The
+  // header's own "See all services" uses the same target, so this behaves like every other link to
+  // that section.
+  onward: [
+    { label: "What we do", href: "/#services" },
+    { label: "Our work", href: "/portfolio" },
+    { label: "Back to home", href: "/" },
+  ],
+  urgent: "If it is urgent, call",
+} as const;

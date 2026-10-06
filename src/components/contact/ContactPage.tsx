@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { SmoothScroll } from "../shared/SmoothScroll";
 import { initAnimate } from "../shared/animate";
 import { ScrollTrigger } from "../shared/gsap";
@@ -10,6 +10,9 @@ import { ParallaxMedia } from "../shared/ParallaxMedia";
 import { ArrowIcon } from "../shared/icons";
 import { BRAND, CONTACT, REGISTRATIONS } from "../home/data";
 import { CONTACT_FAQ, CONTACT_PAGE } from "./data";
+
+/** Where a successful submission lands. Kept next to the fetch so the two cannot drift apart. */
+const SENT_HREF = "/thank-you";
 
 /**
  * Contact.
@@ -89,6 +92,8 @@ export function ContactPage() {
   const [detail, setDetail] = useState("");
   /** Left empty by people, filled in by bots. Netlify drops the submission when it has a value. */
   const [honey, setHoney] = useState("");
+  /** Clicked on a successful send; see the note in `submit`. */
+  const leave = useRef<HTMLAnchorElement>(null);
   const [status, setStatus] = useState<"idle" | "sending" | "sent" | "error">("idle");
 
   useEffect(() => {
@@ -123,7 +128,16 @@ export function ContactPage() {
           name, email, company, detail, "company-website": honey,
         }).toString(),
       });
-      setStatus(res.ok ? "sent" : "error");
+      if (!res.ok) {
+        setStatus("error");
+        return;
+      }
+      // The in-place success state below is only a fallback. What the visitor actually lands on is
+      // /thank-you, reached by clicking a real anchor rather than by calling the router:
+      // PageTransition intercepts clicks, so this takes the same covered route every other
+      // navigation on the site takes. Calling router.push here would swap the page with no cover.
+      setStatus("sent");
+      leave.current?.click();
     } catch {
       setStatus("error");
     }
@@ -228,6 +242,11 @@ export function ContactPage() {
                       </button>
                     </div>
                   ) : (
+                    <>
+                    {/* Not a link anyone can reach: it exists so the send can navigate through the
+                        same click path as every other route change. aria-hidden and tabIndex keep it
+                        out of the tab order and off the accessibility tree. */}
+                    <a ref={leave} href={SENT_HREF} aria-hidden="true" tabIndex={-1} className="hidden" />
                     <form
                       name="project-enquiry"
                       method="POST"
@@ -302,6 +321,7 @@ export function ContactPage() {
                         .
                       </p>
                     </form>
+                    </>
                   )}
                 </div>
               </div>
