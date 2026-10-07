@@ -26,7 +26,7 @@ export function LegalPage({ doc }: { doc: LegalDoc }) {
 
   return (
     <>
-      <a href="#main" className="skip-to-link sr-hidden focus:not-sr-only">Skip to content</a>
+      <a href="#main" className="skip-to-link">Skip to content</a>
       <Header />
       <SmoothScroll>
         <main id="main" className="main-wrapper bg-white text-[#242a2e]" data-background="ebb">

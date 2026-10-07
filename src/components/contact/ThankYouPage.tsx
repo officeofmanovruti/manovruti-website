@@ -34,6 +34,7 @@ export function ThankYouPage() {
     <>
       {/* Header outside the smoother: at >=992px ScrollSmoother transforms #smooth-content, which
           turns a position:fixed child into a scrolling one. See the note in SmoothScroll. */}
+      <a href="#main" className="skip-to-link">Skip to content</a>
       <Header />
       <SmoothScroll>
       <main id="main">
