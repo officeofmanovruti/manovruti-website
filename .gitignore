@@ -44,3 +44,7 @@ CLAUDE.md
 
 # Internal content notes — never commit (repo is public)
 docs/content-provenance.md
+
+# Throwaway audit scripts. Agents have written these into the project root; they are
+# scratch work, not part of the site.
+.a11y-*.mjs
